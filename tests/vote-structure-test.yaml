@@ -1,0 +1,71 @@
+# Container Structure Test — Vote Service (Python/Flask)
+# Place at: vote/tests/container-structure-test.yaml
+# Docs: https://github.com/GoogleContainerTools/container-structure-test
+
+schemaVersion: "2.0.0"
+
+# ── Metadata checks ──────────────────────────────────────────────────────────
+metadataTest:
+  exposedPorts:
+    - "80"
+  entrypoint: []
+  cmd: ["python", "app.py"]
+  workdir: "/app"
+  envVars:
+    - key: FLASK_APP
+      value: app.py
+
+# ── File existence checks ─────────────────────────────────────────────────────
+fileExistenceTests:
+  - name: "app.py present"
+    path: "/app/app.py"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+
+  - name: "requirements.txt present"
+    path: "/app/requirements.txt"
+    shouldExist: true
+
+  - name: "Python binary present"
+    path: "/usr/local/bin/python"
+    shouldExist: true
+
+  - name: "No .git directory in image"
+    path: "/.git"
+    shouldExist: false
+
+  - name: "No dev/test dependencies"
+    path: "/app/tests"
+    shouldExist: false
+
+# ── File content checks ───────────────────────────────────────────────────────
+fileContentTests:
+  - name: "requirements.txt contains flask"
+    path: "/app/requirements.txt"
+    expectedContents: ["flask"]
+
+# ── Command execution tests ───────────────────────────────────────────────────
+commandTests:
+  - name: "Python version is 3.x"
+    command: "python"
+    args: ["--version"]
+    expectedOutput: ["Python 3\\."]
+
+  - name: "Flask is importable"
+    command: "python"
+    args: ["-c", "import flask; print(flask.__version__)"]
+    exitCode: 0
+
+  - name: "Redis client importable"
+    command: "python"
+    args: ["-c", "import redis"]
+    exitCode: 0
+
+  - name: "App runs without crashing (no REDIS_HOST)"
+    command: "python"
+    args: ["-c", "import app"]
+    exitCode: 0
+    envVars:
+      - key: REDIS_HOST
+        value: "localhost"
+
