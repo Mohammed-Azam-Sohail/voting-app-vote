@@ -7,6 +7,12 @@ metadata:
   name: vote
 
 spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+
   replicas: 1
 
   selector:
@@ -19,6 +25,18 @@ spec:
         app: vote
 
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - vote
       securityContext:
         runAsUser: 33
         runAsGroup: 33
