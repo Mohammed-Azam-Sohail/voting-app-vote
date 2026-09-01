@@ -5,12 +5,51 @@ import socket
 import random
 import json
 import logging
+from prometheus_client import Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
 
 option_a = os.getenv('OPTION_A', "Cats")
 option_b = os.getenv('OPTION_B', "Dogs")
 hostname = socket.gethostname()
 
 app = Flask(__name__)
+
+http_requests = Counter(
+    "http_requests_total",
+    "Total HTTP requests",
+    ["method", "path", "status"]
+)
+
+http_request_duration = Histogram(
+    "http_request_duration_seconds",
+    "HTTP request duration in seconds",
+    ["method", "path"]
+)
+
+@app.before_request
+def before_request():
+    g.request_start = __import__("time").perf_counter()
+
+@app.after_request
+def after_request(response):
+    duration = __import__("time").perf_counter() - g.request_start
+
+    http_requests.labels(
+        request.method,
+        request.path,
+        response.status_code
+    ).inc()
+
+    http_request_duration.labels(
+        request.method,
+        request.path
+    ).observe(duration)
+
+    return response
+
+@app.route("/metrics")
+def metrics():
+    return generate_latest(), 200, {"Content-Type": CONTENT_TYPE_LATEST}
+
 
 gunicorn_error_logger = logging.getLogger('gunicorn.error')
 app.logger.handlers.extend(gunicorn_error_logger.handlers)
