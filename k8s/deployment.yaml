@@ -44,7 +44,7 @@ spec:
       automountServiceAccountToken: false
       serviceAccountName: vote-sa
       containers:
-        - image: vilasvarghese/examplevotingapp_vote
+        - image: azam92/voting-app-vote:99ce9e6c492441f4c611277c3d17a81613aa0b9c
           name: vote
 
           ports:
