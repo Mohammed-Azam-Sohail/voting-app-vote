@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    name: Test Vote Service
+    name: Test and Lint Vote Service
     runs-on: ubuntu-latest
 
     steps:
@@ -27,6 +27,12 @@ jobs:
 
       - name: Install test dependencies
         run: pip install pytest
+
+      - name: Install lint dependencies
+        run: pip install flake8
+
+      - name: Run Flake8
+        run: flake8 app.py tests
 
       - name: Run tests
         run: pytest -q
