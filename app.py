@@ -16,6 +16,7 @@ from prometheus_client import (
 option_a = os.getenv("OPTION_A", "Cats")
 option_b = os.getenv("OPTION_B", "Dogs")
 hostname = socket.gethostname()
+version = os.getenv("VOTE_VERSION", "BLUE")
 
 app = Flask(__name__)
 
@@ -92,6 +93,7 @@ def hello():
             option_a=option_a,
             option_b=option_b,
             hostname=hostname,
+            version=version,
             vote=vote,
         )
     )

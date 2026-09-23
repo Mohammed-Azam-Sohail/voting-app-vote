@@ -1,11 +1,11 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: vote-pdb
+  name: vote-pdb-green
   namespace: voting-app
 spec:
   minAvailable: 1
   selector:
     matchLabels:
       app: vote
-      color: blue
+      color: green

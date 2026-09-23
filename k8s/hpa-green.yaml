@@ -1,14 +1,14 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: vote-hpa
+  name: vote-hpa-green
   namespace: voting-app
 
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: vote-blue
+    name: vote-green
 
   minReplicas: 1
   maxReplicas: 5

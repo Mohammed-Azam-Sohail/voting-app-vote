@@ -4,7 +4,7 @@ metadata:
   namespace: voting-app
   labels:
     app: vote
-  name: vote-blue
+  name: vote-green
 
 spec:
   strategy:
@@ -18,13 +18,13 @@ spec:
   selector:
     matchLabels:
       app: vote
-      color: blue
+      color: green
 
   template:
     metadata:
       labels:
         app: vote
-        color: blue
+        color: green
 
     spec:
       affinity:
@@ -39,23 +39,19 @@ spec:
                       operator: In
                       values:
                         - vote
-
       securityContext:
         runAsUser: 33
         runAsGroup: 33
-        runAsNonRoot: true
-
+        runAsNonRoot: true      
       automountServiceAccountToken: false
       serviceAccountName: vote-sa
-
       containers:
-        - image: azam92/voting-app-vote:f6083b0b6dcbb69357a931449fab45337c976d80
-          name: vote-blue
+        - image: azam92/voting-app-vote:d764663e1cae261fb5a01d1e25643c3fbf126471
+          name: vote-green
 
           ports:
             - containerPort: 8080
-              name: vote-blue
-
+              name: vote-green
           livenessProbe:
             httpGet:
               path: /
@@ -72,11 +68,11 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 10
             timeoutSeconds: 5
-            failureThreshold: 3
+            failureThreshold: 3                
 
           env:
             - name: VOTE_VERSION
-              value: "BLUE"
+              value: "GREEN"
 
             - name: REDIS_HOST
               valueFrom:
