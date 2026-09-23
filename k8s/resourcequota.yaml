@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: voting-app-quota
+  namespace: voting-app
+spec:
+  hard:
+    requests.cpu: "2"
+    requests.memory: "2Gi"
+    limits.cpu: "3"
+    limits.memory: "3Gi"
+    pods: "20"
