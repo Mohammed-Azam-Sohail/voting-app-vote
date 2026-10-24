@@ -7,12 +7,6 @@ metadata:
   name: vote-blue
 
 spec:
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 0
-
   replicas: 1
 
   selector:
@@ -25,21 +19,6 @@ spec:
       labels:
         app: vote
         color: blue
-
-    spec:
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                topologyKey: kubernetes.io/hostname
-                labelSelector:
-                  matchExpressions:
-                    - key: app
-                      operator: In
-                      values:
-                        - vote
-
       securityContext:
         runAsUser: 33
         runAsGroup: 33
