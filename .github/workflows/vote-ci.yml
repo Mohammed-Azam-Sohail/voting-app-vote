@@ -4,9 +4,13 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'k8s/service.yaml'
   pull_request:
     branches:
       - main
+    paths-ignore:
+      - 'k8s/service.yaml'
 
 jobs:
   test:
