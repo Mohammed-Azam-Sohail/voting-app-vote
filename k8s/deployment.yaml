@@ -49,7 +49,7 @@ spec:
       serviceAccountName: vote-sa
 
       containers:
-        - image: azam92/voting-app-vote:ff9f39eb14d283348d15d645635bd19174430e13
+        - image: azam92/voting-app-vote:52dff781a5b3fd89248bdc59c0bf8df6af4666d4
           name: vote-blue
 
           ports:
