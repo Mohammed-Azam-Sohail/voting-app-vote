@@ -19,6 +19,8 @@ spec:
       labels:
         app: vote
         color: blue
+
+    spec:
       securityContext:
         runAsUser: 33
         runAsGroup: 33
@@ -28,8 +30,8 @@ spec:
       serviceAccountName: vote-sa
 
       containers:
-        - image: azam92/voting-app-vote:d90ff357c0c11590b09b776b06b1c0485d02133f
-          name: vote-blue
+        - name: vote-blue
+          image: azam92/voting-app-vote:d49606338045334dca5604b446a4982fe5984ec3
 
           ports:
             - containerPort: 8080
