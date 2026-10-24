@@ -31,7 +31,7 @@ spec:
 
       containers:
         - name: vote-blue
-          image: azam92/voting-app-vote:95926c17942d53b5adbe647dcb2f2c6891efa8ff
+          image: azam92/voting-app-vote:d1a984f1ddc5b2f173bd46b47736eea83cb58519
 
           ports:
             - containerPort: 8080
